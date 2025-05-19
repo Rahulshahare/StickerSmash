@@ -44,9 +44,7 @@ jobs:
       - name: Build Android APK
         run: eas build --platform android --profile preview --non-interactive --local --output ${{ github.workspace }}/app-release.apk
 
-      - name: Build iOS Simulator Build
-        run: eas build --platform ios --profile preview --non-interactive --local --output ${{ github.workspace }}/app-ios.tar.gz
-
+     
       - name: List workspace files
         run: ls -la ${{ github.workspace }}
         if: failure()
@@ -58,9 +56,4 @@ jobs:
           path: ${{ github.workspace }}/app-release.apk
           retention-days: 7
 
-      - name: Upload iOS Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-ios-build
-          path: ${{ github.workspace }}/app-ios.tar.gz
-          retention-days: 7
+      
