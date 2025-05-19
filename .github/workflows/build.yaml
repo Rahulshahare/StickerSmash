@@ -3,7 +3,7 @@ name: Build Expo App
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -37,6 +37,7 @@ jobs:
           eas-version: latest
           token: u6KMzIgTli0hwZ4Bd6mXc6Y1wB_Rud95q1gYfBS6
 
+
       - name: Install dependencies
         run: npm ci
 
@@ -46,14 +47,20 @@ jobs:
       - name: Build iOS Simulator Build
         run: eas build --platform ios --profile preview --non-interactive --local --output ${{ github.workspace }}/app-ios.tar.gz
 
+      - name: List workspace files
+        run: ls -la ${{ github.workspace }}
+        if: failure()
+
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
           path: ${{ github.workspace }}/app-release.apk
+          retention-days: 7
 
       - name: Upload iOS Build
         uses: actions/upload-artifact@v4
         with:
           name: app-ios-build
           path: ${{ github.workspace }}/app-ios.tar.gz
+          retention-days: 7
